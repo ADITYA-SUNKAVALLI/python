@@ -1,0 +1,93 @@
+import datetime
+
+class TransactionLogger:
+    def __init__(self):
+        self.transactions = []
+
+    def add_transaction(self, amount, date, category, is_income=True):
+        transaction = {
+            'amount': amount,
+            'date': date,
+            'category': category,
+            'is_income': is_income
+        }
+        self.transactions.append(transaction)
+        print("Transaction added successfully.")
+
+    def edit_transaction(self, index, amount=None, date=None, category=None):
+        if 0 <= index < len(self.transactions):
+            transaction = self.transactions[index]
+
+            if amount is not None:
+                transaction['amount'] = amount
+            if date is not None:
+                transaction['date'] = date
+            if category is not None:
+                transaction['category'] = category
+
+            print("Transaction edited successfully.")
+        else:
+            print("Invalid index. Transaction not found.")
+
+    def delete_transaction(self, index):
+        if 0 <= index < len(self.transactions):
+            del self.transactions[index]
+            print("Transaction deleted successfully.")
+        else:
+            print("Invalid index. Transaction not found.")
+
+    def display_transactions(self):
+        if not self.transactions:
+            print("No transactions found.")
+        else:
+            print("Transactions:")
+            for index, transaction in enumerate(self.transactions):
+                print(f"Index: {index}, Amount: {transaction['amount']}, Date: {transaction['date']}, "
+                      f"Category: {transaction['category']}, Type: {'Income' if transaction['is_income'] else 'Expense'}")
+
+
+# Example Usage:
+logger = TransactionLogger()
+
+while True:
+    print("\nOptions:")
+    print("1. Add Transaction")
+    print("2. Edit Transaction")
+    print("3. Delete Transaction")
+    print("4. Display Transactions")
+    print("5. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+        amount = float(input("Enter amount: "))
+        date = input("Enter date (YYYY-MM-DD): ")
+        category = input("Enter category: ")
+        is_income = input("Is it income? (y/n): ").lower() == 'y'
+        logger.add_transaction(amount, date, category, is_income)
+
+    elif choice == '2':
+        logger.display_transactions()
+        index = int(input("Enter the index of the transaction to edit: "))
+        amount = float(input("Enter new amount (press Enter to keep the same): ") or '0')
+        date = input("Enter new date (YYYY-MM-DD, press Enter to keep the same): ") or None
+        category = input("Enter new category (press Enter to keep the same): ") or None
+        logger.edit_transaction(index, amount, date, category)
+
+    elif choice == '3':
+        logger.display_transactions()
+        index = int(input("Enter the index of the transaction to delete: "))
+        logger.delete_transaction(index)
+
+    elif choice == '4':
+        logger.display_transactions()
+
+    elif choice == '5':
+        print("Exiting. Thank you!")
+        break
+
+    else:
+        print("Invalid choice. Please enter a number between 1 and 5.")
+        
+        
+        
