@@ -1,0 +1,45 @@
+class BudgetTracker:
+    def __init__(self):
+        self.goals = {}
+
+    def set_goal(self, category, goal_amount):
+        self.goals[category] = goal_amount
+
+    def spend(self, category, amount_spent):
+        if category in self.goals and amount_spent > self.goals[category]:
+            self.alert(category, amount_spent)
+
+    def alert(self, category, amount_spent):
+        print(f"Alert: You have exceeded the budget goal for {category}."
+              f" You spent ${amount_spent}, which is more than the goal of ${self.goals[category]}.")
+
+# Interactive usage
+tracker = BudgetTracker()
+
+while True:
+    print("\n1. Set Budget Goal\n2. Record Spending\n3. Exit")
+    choice = input("Enter your choice (1/2/3): ")
+
+    if choice == "1":
+        category = input("Enter the category: ")
+        try:
+            goal_amount = float(input("Enter the budget goal amount: "))
+            tracker.set_goal(category, goal_amount)
+            print(f"Budget goal for {category} set to ${goal_amount}")
+        except ValueError:
+            print("Invalid input. Please enter a valid number for the budget goal.")
+
+    elif choice == "2":
+        category = input("Enter the category: ")
+        try:
+            amount_spent = float(input("Enter the amount spent: "))
+            tracker.spend(category, amount_spent)
+        except ValueError:
+            print("Invalid input. Please enter a valid number for the amount spent.")
+
+    elif choice == "3":
+        print("Exiting the Budget Tracker. Goodbye!")
+        break
+
+    else:
+        print("Invalid choice. Please enter 1, 2, or 3.")
